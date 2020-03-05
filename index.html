@@ -109,7 +109,7 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    sidebar: {"position":"left","display":"always","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: true,
@@ -382,88 +382,31 @@
       
         
           
-            <h2 id="day1—整数反转"><a href="#day1—整数反转" class="headerlink" title="day1—整数反转"></a>day1—整数反转</h2><h5 id="题目："><a href="#题目：" class="headerlink" title="题目："></a>题目：</h5><p>给出一个32位的有符号整数，你需要将这个整数中每位上的数字进行反转。</p>
-<p>示例1:</p>
-<blockquote>
-<p>输入：123</p>
-<p>输出：321</p>
-</blockquote>
-<p>示例2:</p>
-<blockquote>
-<p>输入：-123</p>
-<p>输出：-321</p>
-</blockquote>
-<p>示例3:</p>
-<blockquote>
-<p>输入：120</p>
-<p>输出：21</p>
-</blockquote>
-<p>注意：假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−231,  231 − 1]。请根据这个假设，如果反转后整数溢出那么就返回 0。</p>
-<h5 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h5><ol>
-<li><p>注意：<code>321/10 = 32</code> 及 <code>321%10 = 1</code>,通过<code>先对10取模再除以10对10取模</code>，可以分别得到<code>1，2，3</code></p>
-</li>
-<li><p>此题最主要的是防止反转后的整数溢出：</p>
-<p>如果<code>temp=rev*10+pop</code>导致溢出，那么一定有<code>rev&gt;=(INTMAX/10)</code>；</p>
-<p>如果<code>rev&gt;(INTMAX/10)</code>，那么<code>temp=rev*10+pop</code>一定会溢出；</p>
-<p>如果<code>rev==(INTMAX/10)</code>，那么只要<code>pop&gt;7</code>，<code>temp=rev*10+pop</code>一定会溢出。<code>7</code>是<code>2^31 - 1</code>的个位数</p>
-</li>
-</ol>
-<h5 id="代码实现："><a href="#代码实现：" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">reverse</span><span class="params">(<span class="keyword">int</span> x)</span></span>&#123;</span><br><span class="line">				<span class="keyword">int</span> rev = <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">while</span>(x!=<span class="number">0</span>)&#123;</span><br><span class="line">						<span class="keyword">int</span> pop = x%<span class="number">10</span>;</span><br><span class="line">						x /= <span class="number">10</span>;</span><br><span class="line">						<span class="keyword">if</span>(rev&gt;Integer.MAX_VALUE/<span class="number">10</span>) || (rev==Integer.MAX_VALUE / <span class="number">10</span> &amp;&amp; pop&gt;<span class="number">7</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">						<span class="keyword">if</span>(rev&lt;Integer.MIN_VALUE/<span class="number">10</span>) || (rev==Integer.MIN_VALUE / <span class="number">10</span> &amp;&amp; pop&lt;-<span class="number">8</span>) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">						rev = rev * <span class="number">10</span> + pop;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">return</span> rev</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          day1—整数反转题目：给出一个32位的有符号整数，你需要将这个整数中每位上的数字进行反转。
+示例1:
 
-<h5 id="复杂度："><a href="#复杂度：" class="headerlink" title="复杂度："></a>复杂度：</h5><p>时间复杂度：O<em>(log(<em>x))，x 中大约有 log10(</em>x</em>) 位数字</p>
-<p>空间复杂度：O(1)</p>
-<h2 id="day2—有效的括号"><a href="#day2—有效的括号" class="headerlink" title="day2—有效的括号"></a>day2—有效的括号</h2><h5 id="题目：-1"><a href="#题目：-1" class="headerlink" title="题目："></a>题目：</h5><p>给定一个只包括 <code>&#39;(&#39;</code>，<code>&#39;)&#39;</code>，<code>&#39;{&#39;</code>，<code>&#39;}&#39;</code>，<code>&#39;[&#39;</code>，<code>&#39;]&#39;</code> 的字符串，判断字符串是否有效。</p>
-<p>有效字符串需满足：</p>
-<ol>
-<li>左括号必须用相同类型的右括号闭合。</li>
-<li>左括号必须以正确的顺序闭合。</li>
-</ol>
-<p>注意空字符串可被认为是有效字符串。</p>
-<p>示例1:</p>
-<blockquote>
-<p>输入：”()”</p>
-<p>输出：true</p>
-</blockquote>
-<p>示例2:</p>
-<blockquote>
-<p>输入：”()[]{}”</p>
-<p>输出：true</p>
-</blockquote>
-<p>示例3:</p>
-<blockquote>
-<p>输入：”(]”</p>
-<p>输出：false</p>
-</blockquote>
-<p>示例4:</p>
-<blockquote>
-<p>输入：”([)]”</p>
-<p>输出：false</p>
-</blockquote>
-<p>示例5:</p>
-<blockquote>
-<p>输入：”{[]}”</p>
-<p>输出：true</p>
-</blockquote>
-<h5 id="分析：-1"><a href="#分析：-1" class="headerlink" title="分析："></a>分析：</h5><p><img src="https://pic.leetcode-cn.com/Figures/20/20-Valid-Parentheses-Recursive-Property.png" alt="img"></p>
-<p>由图可以看出，整个表达式若是有效括号，则一定有子表达式是有效括号，类似于递归，因此可以用栈(stack)解题</p>
-<h5 id="代码实现：-1"><a href="#代码实现：-1" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> HashMap&lt;Character,Character&gt; map;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Solution</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.map = <span class="keyword">new</span> HashMap&lt;Character,Character&gt;();</span><br><span class="line">        <span class="keyword">this</span>.map.put(<span class="string">'&#125;'</span>,<span class="string">'&#123;'</span>);</span><br><span class="line">        <span class="keyword">this</span>.map.put(<span class="string">']'</span>, <span class="string">'['</span>);</span><br><span class="line">        <span class="keyword">this</span>.map.put(<span class="string">')'</span>, <span class="string">'('</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isValid</span><span class="params">(String s )</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        Stack&lt;Character&gt; stack = <span class="keyword">new</span> Stack&lt;Character&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++) &#123;</span><br><span class="line">            <span class="keyword">char</span> c = s.charAt(i);</span><br><span class="line">          	<span class="comment">//第一个遍历的括号直接加入到栈中</span></span><br><span class="line">            <span class="keyword">if</span>(stack.empty())&#123;</span><br><span class="line">                stack.push(c);</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">         		<span class="comment">//之后遍历的括号如果和栈顶的元素不是有效括号，则把此时遍历的括号加入栈中</span></span><br><span class="line">            <span class="keyword">if</span>(stack.peek()!=<span class="keyword">this</span>.map.get(c))&#123;</span><br><span class="line">                stack.push(c);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">               <span class="comment">//之后遍历的括号如果和栈顶的元素是有效括号，则弹出此时栈顶元素</span></span><br><span class="line">                stack.pop();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> stack.empty();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+输入：123
+输出：321
 
-<h2 id="day3—最大子列和："><a href="#day3—最大子列和：" class="headerlink" title="day3—最大子列和："></a>day3—最大子列和：</h2><h5 id="题目：-2"><a href="#题目：-2" class="headerlink" title="题目："></a>题目：</h5><p>给定<em>K</em>个整数组成的序列{ <em>N</em>1, <em>N</em>2, …, <em>N**K</em> }，“连续子列”被定义为{ <em>N**i</em>, <em>N**i</em>+1, …, <em>N**j</em> }，其中 1≤<em>i</em>≤<em>j</em>≤<em>K</em>。“最大子列和”则被定义为所有连续子列元素的和中最大者。</p>
-<p>示例1:</p>
-<blockquote>
-<p>输入：{ -2, 11, -4, 13, -5, -2 }</p>
-<p>输出：20</p>
-</blockquote>
-<h5 id="分析：-2"><a href="#分析：-2" class="headerlink" title="分析："></a>分析：</h5><p>“在线处理”法：</p>
-<ol>
-<li>依次遍历数列的每个元素并且相加；</li>
-<li>当前遍历的元素之和如果小于0，则直接抛弃，从下一个遍历的元素重新开始</li>
-<li>每次遍历的元素之和如果大于0，则和之前遍历的元素之和比较，选出较大的那个</li>
-</ol>
-<h5 id="代码实现：-2"><a href="#代码实现：-2" class="headerlink" title="代码实现："></a>代码实现：</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">maxSubSum</span><span class="params">(<span class="keyword">int</span>[] ints)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> MaxSum = <span class="number">0</span>;  <span class="comment">//最大子列和</span></span><br><span class="line">        <span class="keyword">int</span> ThisSum = <span class="number">0</span>;	<span class="comment">//当前遍历子列和</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt;ints.length ; i++) &#123;       <span class="comment">//依次遍历每个元素</span></span><br><span class="line">            ThisSum += ints[i];    </span><br><span class="line">            <span class="keyword">if</span>(ThisSum&gt;MaxSum)&#123;      <span class="comment">//如果当前遍历后的子列和大于此时最大子列和，</span></span><br><span class="line">                MaxSum = ThisSum;	   <span class="comment">//则把当前遍历的子列和赋值于最大子列和</span></span><br><span class="line">            <span class="comment">//如当前遍历的子列和小于0，那么之后的元素加上此时遍历的子列和肯定会变小，因此把之前遍历的子列全部抛弃，设为0，意味着遍历下一个元素的时候又一次全新开始</span></span><br><span class="line">            &#125;<span class="keyword">else</span> <span class="keyword">if</span>(ThisSum&lt;<span class="number">0</span>)&#123;     </span><br><span class="line">                ThisSum = <span class="number">0</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> MaxSum;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+示例2:
 
-<h5 id="时间复杂度：O-n"><a href="#时间复杂度：O-n" class="headerlink" title="时间复杂度：O(n)"></a>时间复杂度：O(n)</h5>
-          
+输入：-123
+输出：-321
+
+示例3:
+
+输入：120
+输出：21
+
+注意：假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−2
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/23/每日一题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -612,21 +555,15 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
+          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/08/04/hello-world/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -762,7 +699,7 @@
       <div class="footer-inner">
         <div class="copyright">
   
-  &copy; 
+  &copy;  2019 - 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
